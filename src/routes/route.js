@@ -15,21 +15,21 @@ router.post("/register", UserController.createUser)
 
 router.post("/login",UserController. userLogIn)
 
-router.post("/books",BookController.createBook)
+router.post("/books",Middleware.authentication,BookController.createBook)
 
-router.get("/books",BookController.getBooks)
+router.get("/books",Middleware.authentication ,BookController.getBooks)
 
-router.get("/books/:bookId",BookController.getBookById)
+router.get("/books/:bookId",Middleware.authentication,BookController.getBookById)
 
-router.put("/books/:bookId",BookController.updateBooks)
+router.put("/books/:bookId",Middleware.authentication,Middleware.authorization,BookController.updateBooks)
 
-router.delete("/books/:bookId",BookController.deleteBooksbyId)
+router.delete("/books/:bookId",Middleware.authentication,Middleware.authorization,BookController.deleteBooksbyId)
 
 router.post("/books/:bookId/review",ReivewController.createReview)
 
 router.put("/books/:bookId/review/:reviewId",ReivewController.updateReview)
 
-router.delete("/books/:bookId/review/:reviewId",ReivewController.deleteBooksbyId)
+router.delete("/books/:bookId/review/:reviewId",ReivewController.deleteReviewsbyId)
 
 
 

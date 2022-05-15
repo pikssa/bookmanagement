@@ -14,11 +14,15 @@ const isValidString= function (value) {
     return true
 }
 
-
 const isValidNumber=  function(n) {
     if (typeof n !== "number" || value.trim().length === 0) return false;
     return true;
   }
+
+// const isValidNumber = function(number){
+//     if(typeof number == Number)  return true
+//     return false
+// }
 
 const isValidISBN= function(ISBN){
     let pattern1 = /^[\d*\-]{10}|[\d*\-]{13}$/                                                                          // ISBN validation
