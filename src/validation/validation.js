@@ -16,7 +16,8 @@ const isValidString= function (value) {
 
 
 const isValidNumber=  function(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+    if (typeof n !== "number" || value.trim().length === 0) return false;
+    return true;
   }
 
 const isValidISBN= function(ISBN){
