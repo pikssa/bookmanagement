@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 
 const authentication = (req, res, next) => {
     try {
-      let token = req.headers["x-Api-key"];                   //getting token from header
+      let token = req.headers["x-api-key"];                   //getting token from header
   
-      if (!token) {                                          //if token is not present 
+      // if (!token) {                                          //if token is not present 
   
-        token = req.headers["x-api-key"];                  //getting token from header
-      }
+      //   token = req.headers["x-api-key"];                  //getting token from header
+      // }
       if (!token) {
   
         return res.status(401).send({ status: false, msg: "Token must be present" });
@@ -39,8 +39,8 @@ const authentication = (req, res, next) => {
       const isvalidId = await booksModel.findOne({_id:bookId,isDeleted:false});
       if (!isvalidId) {
         return res
-          .status(401)
-          .send({ status: false, data: "Please enter a valid bookId" });
+          .status(404)
+          .send({ status: false, data: "book not found" });
       }
       // console.log(isvalidId);
       let userToBeModified = isvalidId.userId.toString();

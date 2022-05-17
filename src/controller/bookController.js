@@ -70,7 +70,7 @@ let createBook = async function (req, res) {
         }
 
         if (!subcategory) { return res.status(404).send({ status: false, message: "sub category is required " }) }
-        else {
+        if (subcategory) {
             for (let i = 0; i < subcategory.length; i++) {
                 if (!validation.isValid(subcategory[i])) { return res.status(400).send({ status: false, message: "subategory is not valid" }) }
             }
@@ -159,9 +159,9 @@ const getBooks = async function (req, res) {
 const getBookById = async function (req, res) {
     try {
         let bookId = req.params.bookId
-        if (!bookId) {
-            return res.status(400).send({ status: false, message: "enter a Book Id  first", });
-        }
+        // if (!bookId) {
+        //     return res.status(400).send({ status: false, message: "enter a Book Id  first", });
+        // }
         if (!validation.isValidObjectId(bookId)) {
             return res.status(404).send({
                 status: false,
@@ -276,7 +276,7 @@ const deleteBooksbyId = async function (req, res) {
     try {
         const bookId = req.params.bookId
         console.log(bookId)
-        if (!bookId) return res.status(400).send({ status: false, msg: "BookId should be present in params" })
+       // if (!bookId) return res.status(400).send({ status: false, msg: "BookId should be present in params" })
         if (!validation.isValidObjectId(bookId)) {
             return res.status(404).send({
                 status: false,

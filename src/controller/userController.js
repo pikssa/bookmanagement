@@ -24,7 +24,7 @@ let createUser = async function (req, res) {
       return res.status(400).send({ status: false, msg: "title is required" })
     }
 
-    if (["Mr", "Mrs", "Miss", "Mast"].indexOf(title) == -1) { return res.status(400).send({ status: false, message: "title should be Mr,Miss,Mrs" }) }
+    if (["Mr", "Mrs", "Miss"].indexOf(title) == -1) { return res.status(400).send({ status: false, message: "title should be Mr,Miss,Mrs" }) }
 
 
     if (!validation.isValid(name)) {
@@ -64,13 +64,13 @@ let createUser = async function (req, res) {
 
     let validEmail = await userModel.findOne({ email: email });
     if (validEmail) {
-      return res.status(400).send({ status: false, msg: "Email Alrady Exist" });
+      return res.status(409).send({ status: false, msg: "Email Alrady Exist" });
     }
 
 
     let validNumber = await userModel.findOne({ phone: phone });
     if (validNumber) {
-      return res.status(400).send({ status: false, msg: "phone Number Already Exist" });   // 400 for duplication
+      return res.status(409).send({ status: false, msg: "phone Number Already Exist" });   // 400 for duplication
     }
 
     let userData = await userModel.create(req.body)
@@ -105,7 +105,7 @@ const userLogIn = async function (req, res) {
   }
   else {  
     let token = jwt.sign({ userId: checkData._id }, "function1Up", { expiresIn: '1000s' });
-    // res.setHeader("x-api-key", token);
+    res.setHeader("x-api-key", token);
     res.status(200).send({status: true, data: "logged in successfully", token:  token })
   }
 }

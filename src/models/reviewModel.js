@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 
 const ObjectId = mongoose.Schema.Types.ObjectId
-const moment = require('moment')
-let date = moment().format('YYYY-MM-DD')
+
 
 
 

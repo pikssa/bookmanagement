@@ -15,6 +15,12 @@ const validation = require("../validation/validation.js")
 const createReview = async function (req, res) {
     try {
         let bookId = req.params.bookId
+        if (!validation.isValidObjectId(bookId)) {
+            return res.status(400).send({
+                status: false,
+                msg: "not a valid userId"
+            })
+        }
         let check = await booksModel.findOne({ _id: bookId, isDeleted: false })
         if (!check) {
             return res.status(404).send({ status: false, message: "No book found" })
@@ -95,16 +101,16 @@ const updateReview = async function (req, res) {
         if (!validation.isValidRequestBody(data)) {
             return res.status(400).send({ status: false, msg: "please provide  details" })
         }
-        if (!validation.isValid(data.review)) {
-            return res.status(400).send({ status: false, msg: "review is not Valid" })
+        if(data.review){if (!validation.isValid(data.review)) {
+            return res.status(400).send({ status: false, msg: "review is not Valid" })}
         }
-        if (!validation.isValidNumber(data.rating)) {
-            return res.status(400).send({ status: false, msg: " rating should be number" });
+        if (data.rating){if (!validation.isValidNumber(data.rating)) {
+            return res.status(400).send({ status: false, msg: " rating should be number" });}
         }
-        if (!validation.isValid(data.reviewedBy)) {
+        if (data.reviewedBy){ if (!validation.isValid(data.reviewedBy)) {
             return res.status(400).send({ status: false, msg: "Name is not Valid" })
         }
-
+}
        let check = await booksModel.findOne({ _id: bookId, isDeleted: false }).select({ deletedAt: 0, __v: 0, ISBN: 0 }).lean();     //With the Mongoose lean() method, the documents are returned as plain objects.
         if (!check)
             return res.status(404).send({ status: false, msg: "Books not found" });
@@ -116,9 +122,11 @@ const updateReview = async function (req, res) {
                     rating: data.rating,
                     reviewedBy: data.reviewedBy,
                 },
-            })                                    
-        const getReviews = await reviewModel.find({ bookId: bookId, isDeleted: false }).select({ isDeleted: 0 })
-        check.reviewsData = getReviews
+            })   
+            if (!updatedReview)
+            return res.status(404).send({ status: false, msg: "review not found" });                                 
+        //const getReviews = await reviewModel.find({ bookId: bookId, isDeleted: false }).select({ isDeleted: 0 })
+        check.reviewsData = updatedReview
         res.status(200).send({ status: true, data: check })
     }  
      catch (err) {
