@@ -12,7 +12,7 @@ const validation = require("../validation/validation")
 
 
 let createBook = async function (req, res) {
-    try {
+    // try {
 
         let requiredBody = req.body;
 
@@ -22,12 +22,15 @@ let createBook = async function (req, res) {
             return res.send({ status: false, msg: "please provide  details" })   // recent edit
         }
 
-        let { title, excerpt, userId, ISBN, category, subcategory, isDeleted, reviews, releasedAt } = req.body   // destructuring method 
+        let { title, excerpt,bookCover, userId, ISBN, category, subcategory, isDeleted, reviews, releasedAt } = req.body   // destructuring method 
 
         if (isDeleted) { if (isDeleted == true) { return res.status(400).send({ status: false, message: "data is not vailid" }) } }         // Imp condition to check
 
         if (!validation.isValid(title)) {                                                                                 // title validation
             return res.status(400).send({ status: false, message: "valid title is required" })
+        }
+        if (!validation.isValid(bookCover)) {                                                                                 // title validation
+            return res.status(400).send({ status: false, message: "valid bookCover is required" })
         }
 
         let uniqueTitle = await booksModel.findOne({ title: title })                                                      // title uniqueness
@@ -44,13 +47,13 @@ let createBook = async function (req, res) {
                 message: "valid userId is required"
             })
         }
-        let decodedToken= req.decodedToken
-        if(userId!=decodedToken.userId){
-            return res.status(400).send({
-                status: false,
-                message: "you cannot create book with any others userid"
-            })
-        }
+        // let decodedToken= req.decodedToken
+        // if(userId!=decodedToken.userId){
+        //     return res.status(400).send({
+        //         status: false,
+        //         message: "you cannot create book with any others userid"
+        //     })
+        // }
 
         let checkUserI = await userModel.findById({ _id: userId })
         if (!checkUserI) {
@@ -103,11 +106,11 @@ let createBook = async function (req, res) {
         let userData = await booksModel.create(req.body)
         return res.status(201).send({ status: true, data: userData })
 
-    }
-    catch (err) {
-        return res.status(500).send({ err: err.message })
+   // }
+    //catch (err) {
+    //    return res.status(500).send({ err: err.message })
 
-    }
+   // }
 }
 
 

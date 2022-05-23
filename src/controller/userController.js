@@ -45,10 +45,10 @@ let createUser = async function (req, res) {
     }
 
 
-    let pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
-    if (!pattern.test(password)) {
-      return res.status(400).send({ status: false, message: "Valid password is required" })
-    }
+    // let pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
+    // if (!pattern.test(password)) {
+    //   return res.status(400).send({ status: false, message: "Valid password is required" })
+    // }
 
     let pattern1 = /^(\+91[\-\s]?)?[0]?(91)?[6-9]\d{9}$/
     if (!pattern1.test(phone)) {

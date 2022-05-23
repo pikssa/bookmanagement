@@ -23,7 +23,8 @@ const bookSchema = new mongoose.Schema({
     reviews: {type: Number, default: 0,trim :true},      // comment: "Holds number of reviews of this book"},
     deletedAt: {type: Date,   default: null},   
     isDeleted: {type :Boolean, default: false},
-    releasedAt: {type:String, required : true}
+    releasedAt: {type:String, required : true},
+    bookCover:String
   
 
 },{timestamps : true})
